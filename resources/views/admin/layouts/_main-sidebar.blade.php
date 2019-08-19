@@ -25,14 +25,14 @@
                      with font-awesome or any other icon font library -->
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <router-link to="/dashboard" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
-                    </a>
+                    </router-link>
                 </li>
 
                 <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fa fa-cog"></i>
                         <p>
                             Management
@@ -65,17 +65,23 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <router-link to="/profile" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>Profile</p>
-                    </a>
+                    </router-link>
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a class="nav-link" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-power-off"></i>
-                        <p>Logout</p>
+                        <p>{{ __('Logout') }}</p>
                     </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
                 </li>
 
             </ul>

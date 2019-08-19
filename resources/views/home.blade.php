@@ -10,7 +10,7 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-
+                    <main-app></main-app>
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
