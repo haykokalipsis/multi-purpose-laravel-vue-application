@@ -34,7 +34,7 @@
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.email }}</td>
                                     <td>{{ user.role | capitalize}}</td>
-                                    <td>{{ user.created_at | myDate }}</td>
+                                    <td>{{ user.created_at | momentDate }}</td>
 
                                     <td>
                                         <a href="">
@@ -170,7 +170,10 @@
             },
 
             createUser() {
-                this.form.post('api/user');
+                this.$Progress.start();
+                this.form.post('api/user')
+                    .then( () => this.$Progress.finish())
+                    .catch( () => this.$Progress.fail);
             }
         },
 

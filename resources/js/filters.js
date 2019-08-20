@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export default {
     capitalize: (value) => {
         if ( ! value) return;

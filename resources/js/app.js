@@ -9,7 +9,13 @@ import MainApp from './MainApp.vue';
 import { Form, HasError, AlertError} from 'vform';
 import router from './router'
 import filters from './filters';
-import moment from 'moment';
+import VueProgressBar from 'vue-progressbar';
+
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '2px'
+});
 // import store from './store';
 
 // Register these componenets globally
