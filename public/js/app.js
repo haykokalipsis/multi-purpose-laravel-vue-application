@@ -34045,7 +34045,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(user.email))]),
                     _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.role))]),
+                    _c("td", [_vm._v(_vm._s(_vm._f("capitalize")(user.role)))]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(user.created_at))]),
                     _vm._v(" "),
@@ -49538,6 +49538,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vform */ "./node_modules/vform/dist/vform.common.js");
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
+/* harmony import */ var _filters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./filters */ "./resources/js/filters.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
  // Main App
@@ -49545,10 +49546,14 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  // Подключаем и пользуем наш Vue-router и Vuex
 
 
+
  // import store from './store';
 // Register these componenets globally
 
 window.Form = vform__WEBPACK_IMPORTED_MODULE_2__["Form"];
+Object.keys(_filters__WEBPACK_IMPORTED_MODULE_4__["default"]).forEach(function (key) {
+  return vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter(key, _filters__WEBPACK_IMPORTED_MODULE_4__["default"][key]);
+});
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(vform__WEBPACK_IMPORTED_MODULE_2__["HasError"].name, vform__WEBPACK_IMPORTED_MODULE_2__["HasError"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(vform__WEBPACK_IMPORTED_MODULE_2__["AlertError"].name, vform__WEBPACK_IMPORTED_MODULE_2__["AlertError"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
@@ -49614,6 +49619,26 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/filters.js":
+/*!*********************************!*\
+  !*** ./resources/js/filters.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  capitalize: function capitalize(value) {
+    if (!value) return;
+    value = value.toString();
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  } // filterB: () => {},
+
+});
 
 /***/ }),
 

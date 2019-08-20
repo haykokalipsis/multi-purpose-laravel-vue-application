@@ -8,10 +8,13 @@ import MainApp from './MainApp.vue';
 // Подключаем и пользуем наш Vue-router и Vuex
 import { Form, HasError, AlertError} from 'vform';
 import router from './router'
+import filters from './filters';
+import moment from 'moment';
 // import store from './store';
 
 // Register these componenets globally
 window.Form = Form;
+Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
