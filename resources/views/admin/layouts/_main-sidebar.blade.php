@@ -42,13 +42,6 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Active Page</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user"></i>
                                 <p>Profile</p>
@@ -62,6 +55,13 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/users" class="nav-link">
+                        <i class="fas fa-users nav-icon text-orange"></i>
+                        <p>Users</p>
+                    </router-link>
                 </li>
 
                 <li class="nav-item">

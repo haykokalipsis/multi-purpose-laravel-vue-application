@@ -5,6 +5,9 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\Types\Self_;
+use PhpParser\Node\Stmt\Static_;
 
 class User extends Authenticatable
 {
@@ -16,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'photo', 'bio', 'role'
     ];
 
     /**
@@ -36,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function addUser($request)
+    {
+        $user = new self;
+        $user->fill($request->only($user->fillable));
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return $user;
+    }
 }
