@@ -6,7 +6,7 @@ import Vue from 'vue';
 import MainApp from './MainApp.vue';
 
 // Подключаем и пользуем наш Vue-router и Vuex
-import { Form, HasError, AlertError} from 'vform';
+// import { Form, HasError, AlertError} from 'vform';
 import router from './router'
 import filters from './filters';
 import VueProgressBar from 'vue-progressbar';
@@ -16,14 +16,25 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '2px'
 });
+
+import swal from 'sweetalert2';
+window.swal = swal;
+
+window.toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
 // import store from './store';
 
 // Register these componenets globally
-window.Form = Form;
+// window.Form = Form;
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]));
 
-Vue.component(HasError.name, HasError);
-Vue.component(AlertError.name, AlertError);
+// Vue.component(HasError.name, HasError);
+// Vue.component(AlertError.name, AlertError);
 
 const app = new Vue({
     router: router,

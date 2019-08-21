@@ -67,46 +67,47 @@
 
                     <form @submit.prevent="createUser">
                         <div class="modal-body">
-                            <div class="form-group">
+                            <div class="form-group" :class="['form-group', errors.name ? 'has-error' : '']">
                                 <label for="name">Name</label>
 
                                 <input
-                                        :class="{'is-invalid' : form.errors.has('name')}"
                                         v-model="form.name"
+                                        :class="['form-control', errors.name ? 'is-invalid' : '']"
                                         class="form-control" type="text" name="name" placeholder="Name" id="name">
 
-                                <has-error :form="form" field="name"></has-error>
+                                <span v-if="errors.name" :class="['label label-danger']">@{{ errors.name[0] }}</span>
+<!--                                <has-error :form="form" field="name"></has-error>-->
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" :class="['form-group', errors.email ? 'has-error' : '']">
                                 <label for="email">Email</label>
 
                                 <input
-                                        :class="{'is-invalid' : form.errors.has('email')}"
+                                        :class="['form-control', errors.email ? 'is-invalid' : '']"
                                         v-model="form.email"
                                         class="form-control" type="email" name="email" placeholder="Email" id="email">
 
-                                <has-error :form="form" field="email"></has-error>
+                                <span v-if="errors.email" :class="['label label-danger']">@{{ errors.email[0] }}</span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" :class="['form-group', errors.bio ? 'has-error' : '']">
                                 <label for="bio">Bio</label>
 
-                                                <textarea
-                                                        :class="{'is-invalid' : form.errors.has('bio')}"
-                                                        v-model="form.bio"
-                                                        class="form-control" type="text" name="bio" placeholder="Bio"
-                                                        id="bio">
-                                                </textarea>
+                                <textarea
+                                        :class="['form-control', errors.bio ? 'is-invalid' : '']"
+                                        v-model="form.bio"
+                                        class="form-control" name="bio" placeholder="Bio" id="bio">
+                                        id="bio">
+                                </textarea>
 
-                                <has-error :form="form" field="bio"></has-error>
+                                <span v-if="errors.bio" :class="['label label-danger']">@{{ errors.bio[0] }}</span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" :class="['form-group', errors.role ? 'has-error' : '']">
                                 <label for="role">Role</label>
 
                                 <select
-                                        :class="{'is-invalid' : form.errors.has('role')}"
+                                        :class="['form-control', errors.role ? 'is-invalid' : '']"
                                         v-model="form.role"
                                         class="form-control" type="text" name="role" placeholder="Role" id="role">
 
@@ -116,18 +117,18 @@
                                     <option value="author">Author</option>
                                 </select>
 
-                                <has-error :form="form" field="role"></has-error>
+                                <span v-if="errors.role" :class="['label label-danger']">@{{ errors.role[0] }}</span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" :class="['form-group', errors.password ? 'has-error' : '']">
                                 <label for="password">Password</label>
 
                                 <input
-                                        :class="{'is-invalid' : form.errors.has('password')}"
+                                        :class="['form-control', errors.password ? 'is-invalid' : '']"
                                         v-model="form.password"
                                         class="form-control" type="password" name="password" placeholder="Password" id="password">
 
-                                <has-error :form="form" field="password"></has-error>
+                                <span v-if="errors.password" :class="['label label-danger']">@{{ errors.password[0] }}</span>
                             </div>
                         </div>
 
@@ -150,15 +151,18 @@
         data () {
             return {
                 users: {},
+                success: false,
+                errors: [],
 
-                form: new Form({
+
+                form: {
                     name : '',
                     email : '',
                     password : '',
                     role : '',
                     bio : '',
                     photo : '',
-                })
+                }
             }
         },
 
@@ -171,9 +175,46 @@
 
             createUser() {
                 this.$Progress.start();
-                this.form.post('api/user')
-                    .then( () => this.$Progress.finish())
-                    .catch( () => this.$Progress.fail);
+                axios.post('api/user', this.form)
+
+                    .then( (response) => {
+                        console.log(response.data.data);
+                        this.errors = [];
+                        this.resetFields();
+                        this.success = true;
+                        // alert ('true');
+                        this.$Progress.finish();
+
+                        toast.fire({
+                            type: 'success',
+                            title: 'User Created in successfully'
+                        });
+                    })
+
+                    .catch( (error) => {
+                        this.errors = error.response.data.errors;
+                        this.success = false;
+                        alert ('false');
+                        this.$Progress.fail();
+
+                        toast.fire({
+                            type: 'error',
+                            title: 'User not Created in successfully'
+                        });
+                    });
+
+                // $('#addNew').modal('hide');
+
+                // this.$Progress.finish();
+
+            },
+
+            resetFields() {
+                this.form.name = '';
+                this.form.email = '';
+                this.form.bio = '';
+                this.form.role = '';
+                this.form.password = '';
             }
         },
 
