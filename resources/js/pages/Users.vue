@@ -41,7 +41,7 @@
                                             <i class="fa fa-edit text-red"></i>
                                         </a>
 
-                                        <a href="">
+                                        <a href="#" @click="deleteUser(user.id)">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true" ref="addNew">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -75,7 +75,7 @@
                                         :class="['form-control', errors.name ? 'is-invalid' : '']"
                                         class="form-control" type="text" name="name" placeholder="Name" id="name">
 
-                                <span v-if="errors.name" :class="['label label-danger']">@{{ errors.name[0] }}</span>
+                                <span v-if="errors.name" :class="['label label-danger text-danger']">@{{ errors.name[0] }}</span>
 <!--                                <has-error :form="form" field="name"></has-error>-->
                             </div>
 
@@ -87,7 +87,7 @@
                                         v-model="form.email"
                                         class="form-control" type="email" name="email" placeholder="Email" id="email">
 
-                                <span v-if="errors.email" :class="['label label-danger']">@{{ errors.email[0] }}</span>
+                                <span v-if="errors.email" :class="['label label-danger text-danger']">@{{ errors.email[0] }}</span>
                             </div>
 
                             <div class="form-group" :class="['form-group', errors.bio ? 'has-error' : '']">
@@ -100,7 +100,7 @@
                                         id="bio">
                                 </textarea>
 
-                                <span v-if="errors.bio" :class="['label label-danger']">@{{ errors.bio[0] }}</span>
+                                <span v-if="errors.bio" :class="['label label-danger text-danger']">@{{ errors.bio[0] }}</span>
                             </div>
 
                             <div class="form-group" :class="['form-group', errors.role ? 'has-error' : '']">
@@ -117,7 +117,7 @@
                                     <option value="author">Author</option>
                                 </select>
 
-                                <span v-if="errors.role" :class="['label label-danger']">@{{ errors.role[0] }}</span>
+                                <span v-if="errors.role" :class="['label label-danger text-danger']">@{{ errors.role[0] }}</span>
                             </div>
 
                             <div class="form-group" :class="['form-group', errors.password ? 'has-error' : '']">
@@ -128,7 +128,7 @@
                                         v-model="form.password"
                                         class="form-control" type="password" name="password" placeholder="Password" id="password">
 
-                                <span v-if="errors.password" :class="['label label-danger']">@{{ errors.password[0] }}</span>
+                                <span v-if="errors.password" :class="['label label-danger text-danger']">@{{ errors.password[0] }}</span>
                             </div>
                         </div>
 
@@ -153,7 +153,6 @@
                 users: {},
                 success: false,
                 errors: [],
-
 
                 form: {
                     name : '',
@@ -182,24 +181,28 @@
                         this.errors = [];
                         this.resetFields();
                         this.success = true;
-                        // alert ('true');
+                        alert ('true');
                         this.$Progress.finish();
+                        EventBus.$emit('UserCreated');
 
-                        toast.fire({
+                        // $(this.$refs.addNew).modal('hide');
+
+                        this.$toast.fire({
                             type: 'success',
-                            title: 'User Created in successfully'
+                            title: 'User Created successfully!'
                         });
+
                     })
 
                     .catch( (error) => {
+                        alert ('false');
                         this.errors = error.response.data.errors;
                         this.success = false;
-                        alert ('false');
                         this.$Progress.fail();
 
-                        toast.fire({
+                        this.$toast.fire({
                             type: 'error',
-                            title: 'User not Created in successfully'
+                            title: 'User not Created!'
                         });
                     });
 
@@ -207,6 +210,44 @@
 
                 // this.$Progress.finish();
 
+            },
+
+            deleteUser(id) {
+                this.$swal.fire({
+                    title: 'Are You Sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+
+                    .then( (result) => {
+                        if (result.value) {
+                            axios.delete('api/user/' + id)
+
+                                .then( (response) => {
+                                    alert(response);
+                                    this.$swal.fire('Deleted', 'Record has been deleted!', 'success');
+                                })
+
+                                .catch( (error) => {
+                                    alert(444);
+                                    this.$toast.fire({
+                                        type: 'error',
+                                        title: 'User not Deleted!'
+                                    });
+                                });
+
+                            EventBus.$emit('UserCreated');
+                        }
+
+
+                    })
+
+
+                    // .catch( ())
             },
 
             resetFields() {
@@ -220,6 +261,10 @@
 
         created() {
             this.loadUsers();
+
+            EventBus.$on('UserCreated', () => {
+                this.loadUsers();
+            });
         }
     }
 </script>

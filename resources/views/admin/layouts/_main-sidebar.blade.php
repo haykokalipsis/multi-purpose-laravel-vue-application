@@ -66,7 +66,7 @@
 
                 <li class="nav-item">
                     <router-link to="/profile" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-user text-green"></i>
                         <p>Profile</p>
                     </router-link>
                 </li>
@@ -75,7 +75,7 @@
                     <a class="nav-link" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-power-off"></i>
+                        <i class="nav-icon fas fa-power-off text-red"></i>
                         <p>{{ __('Logout') }}</p>
                     </a>
 

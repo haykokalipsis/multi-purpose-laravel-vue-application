@@ -1,6 +1,9 @@
 <template>
     <div class="content">
-        <router-view></router-view>
+        <keep-alive>
+            <router-view></router-view>
+        </keep-alive>
+
         <vue-progress-bar></vue-progress-bar>
     </div>
 <!--    <router-view></router-view>-->

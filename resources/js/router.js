@@ -3,10 +3,25 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+function lazyLoad(view){
+    return() => import(`./pages/${view}.vue`)
+}
+
 const routes = [
-    { path: '/dashboard', component: require('./pages/Dashboard.vue').default },
-    { path: '/profile', component: require('./pages/Profile.vue').default },
-    { path: '/users', component: require('./pages/Users.vue').default }
+    {
+        path: '/dashboard',
+        component: lazyLoad('Dashboard')
+    },
+
+    {
+        path: '/profile',
+        component: lazyLoad('Profile')
+    },
+
+    {
+        path: '/users',
+        component: lazyLoad('Users')
+    }
 ];
 
 const router = new VueRouter({
